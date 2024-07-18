@@ -10,7 +10,8 @@ const facebook = () => {
 }
 
 const github = () => {
-}
+  window.open("http://localhost:5000/auth/github", "_self");
+};
 
 const Login = () => {
   return (

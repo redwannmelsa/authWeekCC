@@ -3,7 +3,8 @@ const passport = require('passport');
 
 require('dotenv').config()
 
-var GoogleStrategy = require('passport-google-oauth20').Strategy;
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const GithubStrategy = require('passport-github2').Strategy;
 
 passport.use(
   new GoogleStrategy({
@@ -17,6 +18,15 @@ passport.use(
   )
 )
 
+passport.use(new GithubStrategy({
+  clientID: process.env.GITHUB_CLIENT_ID,
+  clientSecret: process.env.GITHUB_CLIENT_SECRET,
+  callbackURL: "/auth/github/callback",
+},
+  function (accessToken, refreshToken, profile, done) {
+    done(null, profile);
+  }));
+
 passport.serializeUser((user, done) => {
   done(null, user)
 })
@@ -24,3 +34,4 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((user, done) => {
   done(null, user)
 })
+
